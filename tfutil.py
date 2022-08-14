@@ -9,7 +9,7 @@ import os
 import sys
 import inspect
 import importlib
-import imp
+import importlib as imp
 import numpy as np
 from collections import OrderedDict
 import tensorflow as tf
