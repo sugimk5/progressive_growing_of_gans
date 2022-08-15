@@ -335,6 +335,7 @@ def create_cifar10(tfrecord_dir, cifar10_dir):
         labels.append(data['labels'])
     images = np.concatenate(images)
     labels = np.concatenate(labels)
+    labels=labels.astype(np.int32)
     assert images.shape == (50000, 3, 32, 32) and images.dtype == np.uint8
     assert labels.shape == (50000,) and labels.dtype == np.int32
     assert np.min(images) == 0 and np.max(images) == 255
