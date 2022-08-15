@@ -64,6 +64,13 @@ class TFRecordDataset:
         self._cur_lod           = -1
 
         # List tfrecords files and inspect their shapes.
+        print(self.tfrecord_dir)
+
+       #作業ディレクトリをpathに移動する
+        path = '/content/progressive_growing_of_gans/datasets/cifar10'
+        os.chdir(path)
+        cwd = os.getcwd()
+        print(cwd)
         assert os.path.isdir(self.tfrecord_dir)
         tfr_files = sorted(glob.glob(os.path.join(self.tfrecord_dir, '*.tfrecords')))
         assert len(tfr_files) >= 1
