@@ -25,7 +25,7 @@ def fp32(*values):
 def G_wgan_acgan(G, D, opt, training_set, minibatch_size,
     cond_weight = 1.0): # Weight of the conditioning term.
 
-    latents = tf.random_normal([minibatch_size] + G.input_shapes[0][1:])
+    latents = tf.random.normal([minibatch_size] + G.input_shapes[0][1:])
     labels = training_set.get_random_labels_tf(minibatch_size)
     fake_images_out = G.get_output_for(latents, labels, is_training=True)
     fake_scores_out, fake_labels_out = fp32(D.get_output_for(fake_images_out, is_training=True))
