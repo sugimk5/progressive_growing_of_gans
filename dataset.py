@@ -76,7 +76,7 @@ class TFRecordDataset:
         assert len(tfr_files) >= 1
         tfr_shapes = []
         for tfr_file in tfr_files:
-            tfr_opt = tf.python_io.TFRecordOptions(tf.python_io.TFRecordCompressionType.NONE)
+            tfr_opt = tf.io.TFRecordOptions(tf.compat.v1.python_io.TFRecordCompressionType.NONE)
             for record in tf.python_io.tf_record_iterator(tfr_file, tfr_opt):
                 tfr_shapes.append(parse_tfrecord_np(record).shape)
                 break
@@ -115,7 +115,7 @@ class TFRecordDataset:
 
         # Build TF expressions.
         with tf.name_scope('Dataset'), tf.device('/cpu:0'):
-            self._tf_minibatch_in = tf.placeholder(tf.int64, name='minibatch_in', shape=[])
+            self._tf_minibatch_in = tf.compat.v1.placeholder(tf.int64, name='minibatch_in', shape=[])
             tf_labels_init = tf.zeros(self._np_labels.shape, self._np_labels.dtype)
             self._tf_labels_var = tf.Variable(tf_labels_init, name='labels_var')
             tfutil.set_vars({self._tf_labels_var: self._np_labels})
