@@ -108,11 +108,11 @@ def set_vars(var_to_value_dict):
     for var, value in var_to_value_dict.items():
         assert is_tf_expression(var)
         try:
-            setter = tf.get_default_graph().get_tensor_by_name(var.name.replace(':0', '/setter:0')) # look for existing op
+            setter = tf.compat.v1.get_default_graph().get_tensor_by_name(var.name.replace(':0', '/setter:0')) # look for existing op
         except KeyError:
             with absolute_name_scope(var.name.split(':')[0]):
                 with tf.control_dependencies(None): # ignore surrounding control_dependencies
-                    setter = tf.assign(var, tf.placeholder(var.dtype, var.shape, 'new_value'), name='setter') # create new setter
+                    setter = tf.compat.v1.assign(var, tf.placeholder(var.dtype, var.shape, 'new_value'), name='setter') # create new setter
         ops.append(setter)
         feed_dict[setter.op.inputs[1]] = value
     run(ops, feed_dict)
