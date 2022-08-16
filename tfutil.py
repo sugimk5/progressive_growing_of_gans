@@ -468,8 +468,8 @@ class Network:
         self.scope = tf.get_default_graph().unique_name(self.name.replace('/', '_'), mark_as_used=False)
         
         # Build template graph.
-        with tf.variable_scope(self.scope, reuse=tf.AUTO_REUSE):
-            assert tf.get_variable_scope().name == self.scope
+        with tf.compat.v1.variable_scope(self.scope, reuse=tf.compat.v1.AUTO_REUSE):
+            assert tf.compat.v1.get_variable_scope().name == self.scope
             with absolute_name_scope(self.scope): # ignore surrounding name_scope
                 with tf.control_dependencies(None): # ignore surrounding control_dependencies
                     self.input_templates = [tf.placeholder(tf.float32, name=name) for name in self.input_names]
@@ -487,8 +487,8 @@ class Network:
         self.output_shapes  = [shape_to_list(t.shape) for t in self.output_templates]
         self.input_shape    = self.input_shapes[0]
         self.output_shape   = self.output_shapes[0]
-        self.vars           = OrderedDict([(self.get_var_localname(var), var) for var in tf.global_variables(self.scope + '/')])
-        self.trainables     = OrderedDict([(self.get_var_localname(var), var) for var in tf.trainable_variables(self.scope + '/')])
+        self.vars           = OrderedDict([(self.get_var_localname(var), var) for var in tf.compat.v1.global_variables(self.scope + '/')])
+        self.trainables     = OrderedDict([(self.get_var_localname(var), var) for var in tf.compat.v1.trainable_variables(self.scope + '/')])
 
     # Run initializers for all variables defined by this network.
     def reset_vars(self):
